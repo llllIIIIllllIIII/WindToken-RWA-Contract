@@ -1,50 +1,53 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!-- Sync Impact Report
+Version change: N/A → 1.0.0
+Modified principles: none (initial issuance)
+Added sections: Core Principles, Technology Stack Standards, Delivery Workflow, Governance
+Removed sections: none
+Templates requiring updates:
+- ✅ .specify/templates/plan-template.md
+- ✅ .specify/templates/spec-template.md
+- ✅ .specify/templates/tasks-template.md
+Follow-up TODOs: none
+-->
+
+# WindToken RWA Platform Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### Principle 1: Asset Transparency Is Mandatory
+Wind turbine ownership, financing flows, and performance metrics MUST be disclosed through auditable data sources. Every release MUST ship dashboards, reports, or APIs that let contributors verify asset status, revenue allocation, maintenance timelines, and carbon impact. This secures investor trust and satisfies regulatory due diligence expectations.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### Principle 2: Deliver the Simplest MVP Flow First
+Each feature MUST be scoped to a single, independently deployable user journey that keeps the crowdfunding and redemption experience simple. Work items MUST prove value with the minimal UI and contract footprint, then iterate. This ensures speed to market while preserving clarity for retail backers.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### Principle 3: Smart Contracts Stay Upgradeable via UUPS
+All on-chain code MUST be deployed behind proxy contracts using the UUPS upgradeable pattern. Deployment plans MUST document proxy addresses, upgrade procedures, and role assignments before merging. This guarantees we can introduce compliance and financial updates without redeploying core addresses.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### Principle 4: Documentation Ships with Every Feature
+Every feature MUST update reference docs, user guides, and operational runbooks in the same pull request as the code. Documentation deliverables MUST describe user impact, deployment steps, and rollback guidance so operations can trace changes quickly. Without documentation, the work is considered incomplete.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### Principle 5: Automated Tests Gate Releases
+Unit, integration, and contract tests MUST cover each acceptance scenario before code merges. Test suites MUST execute in CI and block merges on failure. Tests MUST include assertions for asset data accuracy, upgrade safeguards, and MVP flows so regressions are caught before deployment.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Technology Stack Standards
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- Front-end implementations MUST use React with WalletConnect for account linking and signature flows.
+- Web3 interactions MUST use audited libraries that support UUPS proxies and deterministic deployment.
+- Off-chain services MUST expose transparency data through signed APIs or verifiable storage (e.g., IPFS, append-only logs).
+- Infrastructure MUST log all asset state changes and financial events for historical replay within 24 hours of occurrence.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Delivery Workflow
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- Break features into MVP slices aligned to Core Principle 2 and capture them as prioritized user stories.
+- For every slice, document the transparency data contract, UI impact, and contract upgrade plan before implementation begins.
+- Commit sequences MUST follow: failing tests → implementation → docs → green CI, ensuring Principles 4 and 5 remain enforceable.
+- Release notes MUST highlight how transparency, documentation, and testing obligations were met for each change set.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+- This constitution supersedes conflicting process documents. Amendments require consensus from product, protocol, and compliance leads documented in writing.
+- Version changes follow semantic versioning: MAJOR for breaking governance changes, MINOR for new principles or sections, PATCH for clarifications.
+- Any amendment MUST include updates to templates and automation that enforce the affected principles before the change is ratified.
+- A quarterly compliance review MUST audit random features for adherence to transparency, documentation, testing, and upgradeability rules. Findings MUST be tracked to closure.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-10-27 | **Last Amended**: 2025-10-27

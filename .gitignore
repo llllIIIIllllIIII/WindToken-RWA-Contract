@@ -1,0 +1,23 @@
+# Node / frontend
+node_modules/
+dist/
+build/
+coverage/
+*.log
+.env*
+
+# Foundry / Forge
+out/
+cache/
+broadcast/
+forge-artifacts/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Misc
+*.tmp
+*.swp

@@ -31,7 +31,12 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- Asset transparency data sources and disclosure mechanisms MUST be identified and documented.
+- Feature scope MUST align with simplest MVP flow, avoiding unnecessary complexity.
+- Smart contract upgradeability via UUPS pattern MUST be planned, including proxy addresses and procedures.
+- Documentation deliverables MUST be outlined, including user guides and operational runbooks.
+- Automated test coverage MUST be specified for unit, integration, and contract tests.
+- Front-end MUST use React with WalletConnect; smart contracts MUST use UUPS upgradeable pattern.
 
 ## Project Structure
 
