@@ -2,12 +2,6 @@
 
 This repository hosts the WindToken hackathon MVP for crowdfunded micro wind turbines. Investors crowdfund projects, receive ERC20 yield tokens, and collect monthly revenue distributions with transparent reporting.
 
-## Getting Started
-
-- Read `specs/001-windtoken-issuance/plan.md` for the full architecture and timeline.
-- Follow `specs/001-windtoken-issuance/quickstart.md` for local setup, Mumbai deployment, and demo flow.
-- Environment variables: copy `.env.example` → `.env` and fill in `MUMBAI_RPC_URL`, `DEPLOYER_PRIVATE_KEY` (test key), and optional `ETHERSCAN_API_KEY`.
-
 ## Repository Layout
 
 - `contracts/` — Solidity sources: `WindTurbineFactory`, `WindTurbineRWA`, `PowerToken`, mocks.
