@@ -1,0 +1,90 @@
+{
+  "WindToken": {
+    "sepolia": {
+      "factory": {
+        "address": "0x7CB0C69D36882bA6c147668670B7F8E6C4c1DCA8",
+        "txHash": "0xbd17154a1c6a3c6bb1f4e57bec8d89b9b8d83662e93ed660c91f4ae595946773"
+      },
+      "implementations": {
+        "project": {
+          "address": "0xE4f098FeB4A0f283Ef7Fe876495C829101C81D9c",
+          "txHash": "0xea21df77e1d0b07ecee54991d766147d3d308e6656e54911c4a34614bc250415"
+        },
+        "ownershipToken": {
+          "address": "0x54bCb1F6E607daE274A2CFD7A05fBce8d7D65901",
+          "txHash": "0x5327a29ced9ae2e80e452961bcc1f258c22df2ff6c7908e70d826b3f00f10298"
+        }
+      },
+      "config": {
+        "stablecoin": "0xd648e85F47e6D31fbB73b66b68598E2C0907A56A",
+        "factoryOwner": "0xE7e1F44F9EDd2A85e9817b576d5e74491B1d1030",
+        "operator": "0xE7e1F44F9EDd2A85e9817b576d5e74491B1d1030",
+        "treasury": "0xE7e1F44F9EDd2A85e9817b576d5e74491B1d1030",
+        "autoCreateProject": false
+      },
+      "projects": [
+        {
+          "projectProxy": "0x0f45578d9A312d0BC9ED42d29D3c4F9D0e8c3713",
+          "ownershipToken": "0x5f63E228a4640e0f26855880A9449edd8b6aD2C8",
+          "metadataURI": "ipfs://windtoken-demo/hualien-phase-1.json",
+          "txHash": "0xb4f1c98860498497d5f573ec5506e776b06b10a4332a87f7904096e462e7cd15"
+        },
+        {
+          "projectProxy": "0x0585F4eaca2D1bAec4B2782988bB8DFA0E9F79aC",
+          "ownershipToken": "0x1842976eEE4E139955fc0e44DaE58843B03e003A",
+          "metadataURI": "ipfs://windtoken-demo/changhua-alpha.json",
+          "txHash": "0x41b57c05b554c7375c1e2d64c49b24125a7f3a637c715929f867acbe3e66b46a"
+        },
+        {
+          "projectProxy": "0xC2546097Fb77e7565fB755c042407901c5078ab9",
+          "ownershipToken": "0xb23E97B887B55BE784E515781BcDC23A4A3d6D48",
+          "metadataURI": "ipfs://windtoken-demo/penghu-microgrid.json",
+          "txHash": "0x0f53504c34373919161c0791ba58e69d11c07fae9feadeab94da5d429e27ce1b"
+        }
+      ]
+    },
+    "zircuit": {
+      "factory": {
+        "address": "0x99484A9D8f5c31f3990733c5286921D2B8919126",
+        "txHash": "0x504999e0749dee6c61271c8720fe3c2b2d558baff8e24829778f766476ded570"
+      },
+      "implementations": {
+        "project": {
+          "address": "0x9C6C9D9848f8b5D5A5104d6537f8E2f754d03682",
+          "txHash": "0x662c436bedb294f37a356c7b17ae1cdd5132640ac4a2058fa2a7139a2bd0e2f4"
+        },
+        "ownershipToken": {
+          "address": "0x5E6Aed02b3130d8DffB8a88475a77C4070f9Ce63",
+          "txHash": "0xb60f05d0933206919c0ec6e3a2b39db85e18e4237931037b1decca798c4911e0"
+        }
+      },
+      "config": {
+        "stablecoin": "0xd250Ff9A177aCeeD8D3eb37f3C728CBd88B2Dae9",
+        "factoryOwner": "0xE7e1F44F9EDd2A85e9817b576d5e74491B1d1030",
+        "operator": "0xE7e1F44F9EDd2A85e9817b576d5e74491B1d1030",
+        "treasury": "0xE7e1F44F9EDd2A85e9817b576d5e74491B1d1030",
+        "autoCreateProject": false
+      },
+      "projects": [
+        {
+          "projectProxy": "0x76781D99b0ad20588F13a3700aa9647dcA6E2C79",
+          "ownershipToken": "0x9a7Cb46605D390738F0AeB7763A6423A1A1A4517",
+          "metadataURI": "ipfs://windtoken-demo/hualien-phase-1.json",
+          "txHash": "0x3920761344d2a85e9452af0aae3ca2a71076897dc794a4ecba88bb16c84e3a7c"
+        },
+        {
+          "projectProxy": "0x33d0F4e1Ab9aF8e59526Fe9202334e88b8be9892",
+          "ownershipToken": "0xb521ffe45e04e0CF0834514eD310D038469828FE",
+          "metadataURI": "ipfs://windtoken-demo/changhua-alpha.json",
+          "txHash": "0xb83d1c0e7b3d4d57d503b14fb72b306f0b976aa0e47e94a75f7fe803e8018439"
+        },
+        {
+          "projectProxy": "0xdcDF08343bCd00fdCC0DB2370ad29AA4cc4E14De",
+          "ownershipToken": "0x6d123D44F46f1740f06dbD907DaF1988A2926c8D",
+          "metadataURI": "ipfs://windtoken-demo/penghu-microgrid.json",
+          "txHash": "0xe831c9f490644e9abc577b7501bdfdc53b47a1e82de3e4c4230f1275cd9f959a"
+        }
+      ]
+    }
+  }
+}

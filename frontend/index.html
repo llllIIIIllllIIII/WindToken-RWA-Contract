@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WindTurbine Factory Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0 16px 32px;
+        }
+        header {
+            padding: 24px 0 16px;
+            text-align: center;
+        }
+        main {
+            max-width: 980px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+        }
+        section {
+            margin-bottom: 32px;
+        }
+        h1, h2 {
+            margin: 0 0 16px;
+            color: #1f2937;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: #f9fafb;
+            font-size: 14px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
+        button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background-color: #2563eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        button:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+        button:hover:not(:disabled) {
+            background-color: #1d4ed8;
+        }
+        #status {
+            background: #e0f2fe;
+            border: 1px solid #60a5fa;
+            color: #1d4ed8;
+            padding: 12px;
+            border-radius: 8px;
+            min-height: 40px;
+            margin-bottom: 24px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+        th {
+            color: #6b7280;
+            font-weight: 600;
+            background: #f9fafb;
+        }
+        .inline {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+        .inline > div {
+            flex: 1 1 280px;
+        }
+        .muted {
+            color: #6b7280;
+            font-size: 13px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: #e5e7eb;
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+        }
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+        .flex-row input {
+            flex: 1 1 auto;
+        }
+        .logs {
+            background: #0f172a;
+            color: #e0f2fe;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            padding: 16px;
+            border-radius: 8px;
+            min-height: 120px;
+            overflow-y: auto;
+            font-size: 13px;
+        }
+        .logs p {
+            margin: 0 0 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>WindTurbine Factory Dashboard</h1>
+        <p class="muted">Connect your wallet, inspect deployed projects, and register new deployments via the factory contract.</p>
+    </header>
+    <main>
+        <section>
+            <div class="inline">
+                <div>
+                    <label for="factoryAddress">Factory Contract Address</label>
+                    <input id="factoryAddress" type="text" placeholder="0x..." autocomplete="off">
+                </div>
+                <div style="flex: 0 1 160px;">
+                    <button id="connectButton">Connect Wallet</button>
+                </div>
+                <div style="flex: 0 1 160px;">
+                    <button id="loadInfoButton">Load Factory Info</button>
+                </div>
+            </div>
+            <div id="status">Wallet not connected.</div>
+            <div>
+                <p class="muted" id="factoryDetails"></p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Deployed Projects</h2>
+            <button id="refreshProjectsButton">Refresh Project List</button>
+            <div id="projectsContainer"></div>
+        </section>
+
+        <section>
+            <h2>Create Project</h2>
+            <p class="muted">Only the factory owner can create new projects. Pre-filled values match the current contract constraints.</p>
+            <div>
+                <label for="operatorAddress">Operator Address</label>
+                <input id="operatorAddress" type="text" placeholder="0x...">
+
+                <label for="treasuryAddress">Treasury Address</label>
+                <input id="treasuryAddress" type="text" placeholder="0x...">
+
+                <label for="stablecoinAddress">Stablecoin Address (ERC-20)</label>
+                <input id="stablecoinAddress" type="text" placeholder="0x...">
+
+                <label for="tokenName">Ownership Token Name</label>
+                <input id="tokenName" type="text" placeholder="WindTurbine Ownership Token">
+
+                <label for="tokenSymbol">Ownership Token Symbol</label>
+                <input id="tokenSymbol" type="text" placeholder="WOT">
+
+                <label for="metadataUri">Metadata URI</label>
+                <input id="metadataUri" type="text" placeholder="ipfs://...">
+
+                <label for="commissioningUri">Commissioning Docs URI (optional)</label>
+                <input id="commissioningUri" type="text" placeholder="ipfs://...">
+
+                <div class="flex-row">
+                    <div>
+                        <label for="fundingGoal">Funding Goal (USDC, 6 decimals)</label>
+                        <input id="fundingGoal" type="text" value="1000000000000">
+                        <p class="muted">Default = 1,000,000 USDC =&gt; 1,000,000 * 1e6 = 1,000,000,000,000</p>
+                    </div>
+                    <div>
+                        <label for="contributionRate">Contribution Rate (tokens per USDC unit)</label>
+                        <input id="contributionRate" type="text" value="1000000000000000000">
+                        <p class="muted">Default = 1e18 (1 OT per 100 USDC chunk)</p>
+                    </div>
+                    <div>
+                        <label for="tokenDecimals">Token Decimals</label>
+                        <input id="tokenDecimals" type="number" value="18" min="0" max="30">
+                    </div>
+                </div>
+
+                <button id="createProjectButton">Submit Deployment</button>
+            </div>
+        </section>
+
+        <section>
+            <h2>Logs</h2>
+            <div class="logs" id="logs"></div>
+        </section>
+    </main>
+
+    <script>
+    const { ethers } = window;
+
+    const FACTORY_ABI = [
+            "function projectImplementation() view returns (address)",
+            "function ownershipTokenImplementation() view returns (address)",
+            "function projectCount() view returns (uint256)",
+            "function projectAt(uint256 index) view returns (address)",
+            "function getProjects() view returns (tuple(address projectProxy,address ownershipToken,address operator,address treasury,address stablecoin,uint256 fundingGoal,uint256 contributionRate,string metadataURI,uint8 state)[])",
+            "function projects(address project) view returns (tuple(address projectProxy,address ownershipToken,address operator,address treasury,address stablecoin,uint256 fundingGoal,uint256 contributionRate,string metadataURI,uint8 state))",
+            "function createProject((address operator,address stablecoin,address treasury,address ownershipToken,string metadataURI,string commissioningDocsURI,string tokenName,string tokenSymbol,uint8 tokenDecimals,uint256 fundingGoal,uint256 contributionRate) config) returns (address projectProxy, address ownershipToken)"
+        ];
+
+        const STATE_LABELS = ["Draft", "Fundraising", "Commissioning", "Active", "Closed"];
+
+        let provider;
+        let signer;
+        let currentAccount;
+
+        const connectButton = document.getElementById("connectButton");
+        const loadInfoButton = document.getElementById("loadInfoButton");
+        const refreshProjectsButton = document.getElementById("refreshProjectsButton");
+        const createProjectButton = document.getElementById("createProjectButton");
+        const statusEl = document.getElementById("status");
+        const factoryDetailsEl = document.getElementById("factoryDetails");
+        const projectsContainer = document.getElementById("projectsContainer");
+        const logsEl = document.getElementById("logs");
+
+        function log(message) {
+            const time = new Date().toISOString();
+            const entry = document.createElement("p");
+            entry.textContent = `[${time}] ${message}`;
+            logsEl.prepend(entry);
+        }
+
+        function setStatus(text) {
+            statusEl.textContent = text;
+        }
+
+        function getFactoryAddress() {
+            const addr = document.getElementById("factoryAddress").value.trim();
+            if (!addr) {
+                throw new Error("Factory address is required.");
+            }
+            if (!ethers.utils.isAddress(addr)) {
+                throw new Error("Factory address is not a valid Ethereum address.");
+            }
+            return addr;
+        }
+
+        function getFactoryContract(requireSigner = false) {
+            if (!ethers) {
+                throw new Error("Ethers.js 尚未載入");
+            }
+            if (!provider) {
+                throw new Error("Wallet not connected. Please connect first.");
+            }
+            const address = getFactoryAddress();
+            const scope = requireSigner ? signer : provider;
+            if (requireSigner && !signer) {
+                throw new Error("No signer available. Connect a wallet with transaction permissions.");
+            }
+            return new ethers.Contract(address, FACTORY_ABI, scope);
+        }
+
+        async function connectWallet() {
+            if (!ethers) {
+                alert("Ethers.js 未載入，請確認 CDN 是否可用或改用本地檔案。");
+                return;
+            }
+            if (!window.ethereum) {
+                setStatus("No wallet detected. Please install MetaMask or a compatible provider.");
+                return;
+            }
+            provider = new ethers.providers.Web3Provider(window.ethereum);
+            try {
+                const accounts = await provider.send("eth_requestAccounts", []);
+                signer = provider.getSigner();
+                currentAccount = accounts[0];
+                setStatus(`Connected: ${currentAccount}`);
+                log(`Wallet connected: ${currentAccount}`);
+            } catch (err) {
+                setStatus("Wallet connection rejected.");
+                log(`Wallet connection failed: ${err.message}`);
+            }
+        }
+
+        async function loadFactoryInfo() {
+            try {
+                if (!ethers) {
+                    throw new Error("Ethers.js 尚未載入");
+                }
+                const factory = getFactoryContract(false);
+                const [projectImpl, tokenImpl, count] = await Promise.all([
+                    factory.projectImplementation(),
+                    factory.ownershipTokenImplementation(),
+                    factory.projectCount()
+                ]);
+                factoryDetailsEl.innerHTML = `
+                    <strong>Project Impl:</strong> ${projectImpl}<br>
+                    <strong>OwnershipToken Impl:</strong> ${tokenImpl}<br>
+                    <strong>Project Count:</strong> ${count.toString()}
+                `;
+                log("Factory info loaded.");
+            } catch (err) {
+                setStatus(err.message);
+                log(`Failed to load factory info: ${err.message}`);
+            }
+        }
+
+        function renderProjects(projects) {
+            if (!ethers) {
+                projectsContainer.innerHTML = "<p class=\"muted\">請先確認 ethers.js 已成功載入。</p>";
+                return;
+            }
+            if (!projects.length) {
+                projectsContainer.innerHTML = "<p class=\"muted\">No projects deployed yet.</p>";
+                return;
+            }
+            const rows = projects.map((item, index) => {
+                const stateIndex = typeof item.state === "number" ? item.state : item.state.toNumber();
+                const stateLabel = STATE_LABELS[stateIndex] || `Unknown (${stateIndex})`;
+                return `
+                    <tr>
+                        <td>${index}</td>
+                        <td><code>${item.projectProxy}</code></td>
+                        <td><code>${item.ownershipToken}</code></td>
+                        <td>${stateLabel}</td>
+                        <td>${ethers.utils.formatUnits(item.fundingGoal, 6)} USDC</td>
+                        <td>${ethers.utils.formatUnits(item.contributionRate, 18)}</td>
+                        <td><code>${item.operator}</code></td>
+                        <td><code>${item.treasury}</code></td>
+                        <td><code>${item.stablecoin}</code></td>
+                        <td>${item.metadataURI || "-"}</td>
+                    </tr>
+                `;
+            }).join("");
+
+            projectsContainer.innerHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Project</th>
+                            <th>Ownership Token</th>
+                            <th>State</th>
+                            <th>Funding Goal</th>
+                            <th>Contribution Rate</th>
+                            <th>Operator</th>
+                            <th>Treasury</th>
+                            <th>Stablecoin</th>
+                            <th>Metadata</th>
+                        </tr>
+                    </thead>
+                    <tbody>${rows}</tbody>
+                </table>
+            `;
+        }
+
+        async function refreshProjects() {
+            try {
+                if (!ethers) {
+                    throw new Error("Ethers.js 尚未載入");
+                }
+                const factory = getFactoryContract(false);
+                const projects = await factory.getProjects();
+                renderProjects(projects);
+                log(`Fetched ${projects.length} project records.`);
+            } catch (err) {
+                setStatus(err.message);
+                log(`Failed to load projects: ${err.message}`);
+            }
+        }
+
+        async function createProject() {
+            try {
+                const factory = getFactoryContract(true);
+                const operator = document.getElementById("operatorAddress").value.trim();
+                const treasury = document.getElementById("treasuryAddress").value.trim();
+                const stablecoin = document.getElementById("stablecoinAddress").value.trim();
+                const tokenName = document.getElementById("tokenName").value.trim();
+                const tokenSymbol = document.getElementById("tokenSymbol").value.trim();
+                const metadataUri = document.getElementById("metadataUri").value.trim();
+                const commissioningUri = document.getElementById("commissioningUri").value.trim();
+                const fundingGoalRaw = document.getElementById("fundingGoal").value.trim();
+                const contributionRateRaw = document.getElementById("contributionRate").value.trim();
+                const tokenDecimalsRaw = document.getElementById("tokenDecimals").value.trim();
+
+                if (!ethers.utils.isAddress(operator)) {
+                    throw new Error("Operator address is invalid.");
+                }
+                if (!ethers.utils.isAddress(treasury)) {
+                    throw new Error("Treasury address is invalid.");
+                }
+                if (!ethers.utils.isAddress(stablecoin)) {
+                    throw new Error("Stablecoin address is invalid.");
+                }
+                if (!tokenName || !tokenSymbol) {
+                    throw new Error("Token name and symbol are required.");
+                }
+                const fundingGoal = ethers.BigNumber.from(fundingGoalRaw || "0");
+                const contributionRate = ethers.BigNumber.from(contributionRateRaw || "0");
+                const tokenDecimals = parseInt(tokenDecimalsRaw, 10);
+
+                const config = {
+                    operator,
+                    stablecoin,
+                    treasury,
+                    ownershipToken: ethers.constants.AddressZero,
+                    metadataURI: metadataUri,
+                    commissioningDocsURI: commissioningUri,
+                    tokenName,
+                    tokenSymbol,
+                    tokenDecimals,
+                    fundingGoal,
+                    contributionRate
+                };
+
+                setStatus("Submitting transaction...");
+                log("Sending createProject transaction...");
+                const tx = await factory.createProject(config);
+                setStatus(`Transaction submitted: ${tx.hash}`);
+                log(`createProject tx sent: ${tx.hash}`);
+                await tx.wait();
+                setStatus("Project deployed. Fetching updated project list...");
+                log("createProject confirmed.");
+                await refreshProjects();
+            } catch (err) {
+                setStatus(err.message);
+                log(`createProject failed: ${err.message}`);
+            }
+        }
+
+        connectButton.addEventListener("click", connectWallet);
+        loadInfoButton.addEventListener("click", loadFactoryInfo);
+        refreshProjectsButton.addEventListener("click", refreshProjects);
+        createProjectButton.addEventListener("click", createProject);
+
+        if (window.ethereum) {
+            window.ethereum.on("accountsChanged", accounts => {
+                if (!accounts.length) {
+                    setStatus("Wallet disconnected.");
+                    log("Accounts disconnected.");
+                    signer = null;
+                    currentAccount = null;
+                    return;
+                }
+                currentAccount = accounts[0];
+                signer = provider.getSigner();
+                setStatus(`Connected: ${currentAccount}`);
+                log(`Account switched: ${currentAccount}`);
+            });
+        }
+    </script>
+</body>
+</html>

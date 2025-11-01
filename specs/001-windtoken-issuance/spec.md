@@ -17,8 +17,9 @@ As an individual investor, I want to browse active turbine projects, contribute 
 **Independent Test**: Using a seeded test project, a test wallet can submit a contribution transaction and immediately receive the correct token amount. Token balance reflects proportional share.
 
 **Acceptance Scenarios**:
-1. **Given** a funded project open for investment, **When** an investor submits a contribution of X units of the designated stablecoin, **Then** the system mints tokens to the investor in proportion to X and reflects the contribution in the project's on-chain ledger.
-2. **Given** the project reaches a funding goal, **When** no more contributions are accepted, **Then** the contract prevents further minting and records the closed state on-chain.
+1. **Given** a funded project open for investment, **When** an investor submits a contribution of X units (multiple of 100 USDC) of the designated stablecoin, **Then** the system escrows the funds, records the investor's proportional share, and exposes the expected mint amount for later settlement.
+2. **Given** the project reaches the funding goal of 1,000,000 USDC, **When** fundraising finalizes, **Then** the contract batch-mints tokens to each investor based on their final contribution and transitions the project to the commissioning state.
+3. **Given** fundraising is still in progress, **When** an investor requests to withdraw Y units (multiple of 100 USDC) not exceeding their contribution, **Then** the contract returns the funds and updates the investor's recorded share accordingly.
 
 ---
 
@@ -59,7 +60,8 @@ As a token holder, I want to receive transparent monthly reports of revenue and 
 ### Functional Requirements
 
 - **FR-001**: The system MUST allow a project operator to create a project with metadata: location, capacity (kW), expected yield model, funding goal, and commissioning milestones.
-- **FR-002**: The system MUST accept investor contributions and mint tokens proportional to each contribution according to a clearly documented tokenomics formula.
+- **FR-002**: The system MUST accept investor contributions in 100 USDC increments, escrow them until the project reaches the 1,000,000 USDC goal, and mint tokens proportional to each investor's final contribution once fundraising concludes.
+- **FR-002a**: The system MUST allow contributors to withdraw all or part of their escrowed funds (in 100 USDC increments) while the fundraising state is active.
 - **FR-003**: Tokens MUST be transferable on-chain unless explicitly restricted by a permissioning policy recorded in the project spec.
 - **FR-004**: The system MUST support recording commissioning milestones and state transitions (e.g., Draft → Fundraising → Commissioning → Active → Closed).
 - **FR-005**: The system MUST enable monthly revenue events to be recorded and distributed to token holders proportionally; distributions MUST be traceable on-chain.

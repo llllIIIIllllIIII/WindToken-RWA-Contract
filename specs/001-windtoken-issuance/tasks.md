@@ -15,9 +15,9 @@ Note: Tests are REQUIRED per constitution. Write tests first for each user story
 ## Phase 1: Setup (Shared Infrastructure)
 
 - [x] T001 Create repository structure per plan in repo root (contracts/, scripts/, test/, frontend/, specs/) - Owner=you | Size=Small
-- [ ] T002 Initialize Foundry project (`forge init --force .`) and add `.env.example` with Mumbai RPC keys placeholders - Owner=you | Size=Small
-- [ ] T003 Add base README with demo outline and link to `specs/001-windtoken-issuance/quickstart.md` - Owner=Marketing | Size=Small
-- [ ] T004 [P] Add GitHub Actions CI to run `forge test` on PRs (`.github/workflows/ci.yml`) - Owner=you | Size=Small
+- [x] T002 Initialize Foundry project (`forge init --force .`) and add `.env.example` with Mumbai RPC keys placeholders - Owner=you | Size=Small
+- [x] T003 Add base README with demo outline and link to `specs/001-windtoken-issuance/quickstart.md` - Owner=Marketing | Size=Small
+- [x] T004 [P] Add GitHub Actions CI to run `forge test` on PRs (`.github/workflows/ci.yml`) - Owner=you | Size=Small
 - [ ] T005 [P] Initialize frontend scaffold (`frontend/`) with Vite React, add basic routing and WalletConnect wiring placeholders - Owner=UI/UX | Size=Medium
 
 ---

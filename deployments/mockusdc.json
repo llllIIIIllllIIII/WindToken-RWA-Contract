@@ -1,0 +1,12 @@
+{
+  "MockUSDC": {
+    "sepolia": {
+      "address": "0xd648e85F47e6D31fbB73b66b68598E2C0907A56A",
+      "txHash": "0xe63b72f59a939a6b821fdb2811ecbaea5f405f6a385b145794efc953e727e14"
+    },
+    "zircuit": {
+      "address": "0xd250Ff9A177aCeeD8D3eb37f3C728CBd88B2Dae9",
+      "txHash": "0xffc8e01ea5cf6e12dc6c0c903363d24696e27893d82f283c64fb9b553c3b172"
+    }
+  }
+}

@@ -1,66 +1,52 @@
-## Foundry
+# WindToken RWA Platform (Hackathon MVP)
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+This repository hosts the WindToken hackathon MVP for crowdfunded micro wind turbines. Investors crowdfund projects, receive ERC20 yield tokens, and collect monthly revenue distributions with transparent reporting.
 
-Foundry consists of:
+## Getting Started
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- Read `specs/001-windtoken-issuance/plan.md` for the full architecture and timeline.
+- Follow `specs/001-windtoken-issuance/quickstart.md` for local setup, Mumbai deployment, and demo flow.
+- Environment variables: copy `.env.example` → `.env` and fill in `MUMBAI_RPC_URL`, `DEPLOYER_PRIVATE_KEY` (test key), and optional `ETHERSCAN_API_KEY`.
 
-## Documentation
+## Repository Layout
 
-https://book.getfoundry.sh/
+- `contracts/` — Solidity sources: `WindTurbineFactory`, `WindTurbineRWA`, `PowerToken`, mocks.
+- `script/` — Foundry deployment/upgrade scripts (`DeployFactory.s.sol`, etc.).
+- `test/` — Forge tests covering contributions, commissioning, and distribution flows.
+- `frontend/` — React + WalletConnect client (campaign list, detail, dashboard, operator tools).
+- `docs/` — Demo materials and presentation assets.
+- `lib/forge-std/` — Foundry standard library (installed via `forge`).
 
-## Usage
+## Tooling
 
-### Build
+- Smart contracts: Foundry (`forge`, `cast`, `anvil`), OpenZeppelin upgradeable contracts, UUPS proxies.
+- Frontend: React 18, Vite, ethers.js, wagmi + WalletConnect.
+- Testnet: Polygon Mumbai for live MVP demonstrations.
 
-```shell
-$ forge build
+## Common Commands
+
+```bash
+# Install dependencies
+forge install
+
+# Build contracts
+forge build
+
+# Run tests
+forge test
+
+# Format Solidity
+forge fmt
+
+# Start local node
+anvil
+
+# Deploy to Mumbai (example)
+forge script script/DeployFactory.s.sol --rpc-url $MUMBAI_RPC_URL --private-key $DEPLOYER_PRIVATE_KEY --broadcast
 ```
 
-### Test
 
-```shell
-$ forge test
-```
+## Foundry Reference
 
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+- Official docs: <https://book.getfoundry.sh/>
+- `forge --help`, `anvil --help`, `cast --help` for command usage.
