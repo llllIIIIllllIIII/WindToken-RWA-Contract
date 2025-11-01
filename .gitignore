@@ -13,6 +13,32 @@ frontend/build/
 frontend/.next/
 frontend/.DS_Store
 
+# Ignore entire frontend demo folder (kept locally only)
+frontend/
+
+# Lockfiles / package manager
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Artifacts / build outputs
+artifacts/
+
+# Keystores & secrets
+.env.local
+.secret
+*.keystore
+*.p12
+*.pfx
+*.asc
+
+# Docker / container
+docker-compose.override.yml
+
+# Terraform
+.terraform/
+
+
 # Exclude working/demo-only folders and AI agent artifacts
 test/
 script/
@@ -20,6 +46,7 @@ scripts/
 specs/
 spec/
 .github/
+.specify/
 
 # Environment / secrets
 .env
